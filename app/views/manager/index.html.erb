@@ -1,0 +1,20 @@
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Manager Name</th>
+			<th>Department</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @managers.each do |manager| %>
+			<tr>
+				<td><%= manager.name %></td>
+				<td><%= manager.department.name %></td>
+				<td><%= link_to 'Edit', edit_manager_path(manager.id) %> | <%= link_to 'Delete', manager_path(manager.id), method: :delete %>
+			</tr>
+		<% end %>
+		<tr>
+			<td colspan="3"><%= link_to 'New Manager', new_manager_path, class: 'pull-right' %></td>
+		</tr>
+	</td>
+</table>

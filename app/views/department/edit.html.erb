@@ -1,0 +1,21 @@
+
+<div class="row">
+	<h3 class="text-center">Edit Department</h3>
+</div>
+
+<%= render partial: 'shared/back' %>
+
+<div class="row">
+	<%= form_for :department, url: department_path(@department.id), method: :put do |f| %>
+		<div class="form-group">
+			<div class="col-sm-12 col-md-6 col-md-offset-3">
+				<%= f.label 'Manager Name' %>
+				<%= f.text_field :name, class: 'form-control' %>
+			</div>
+		</div>
+
+		<div class="col-sm-12 col-md-6 col-md-offset-3" style="margin-top:15px;">
+			<%= f.submit "Update" , class: 'btn btn-block btn-primary' %>
+		</div>
+	<% end %>
+</div>

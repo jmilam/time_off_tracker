@@ -1,0 +1,75 @@
+
+<div class="container">
+	<div class="row">
+		<div class="col-sm-12 col-md-6 col-md-offset-2">
+			<%= link_to '<< Back', user_portal_index_path %>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-12 col-md-6 col-md-offset-2">
+		  <div class="panel panel-success">
+		    <div class="panel-heading">
+		      <div class="panel-title">
+		        Available Time Overview
+		      </div>
+		    </div>
+		    <div class="panel-body">
+		    	<ul class="list-inline text-center">
+		    		<li>
+		    			<div class="col-sm-12 col-md-12">
+			    			<b>Vaction Days Available</b>
+			    		</div>
+			    		<div class="col-sm-12 col-md-12">
+			    			<%= @user.vacation_total %>
+			    		</div>
+		    		</li>
+		    		<li>
+		    			<div class="col-sm-12 col-md-12">
+			    			<b>Personal Days Avaialble</b>
+			    		</div>
+			    		<div class="col-sm-12 col-md-12">
+			    			<%= @user.personal_total %>
+			    		</div>
+		    		</li>
+		      </ul>
+		    </div>
+		  </div>
+	</div>
+	<div class="row">
+	  <%= form_for :request, url: time_off_request_index_path, method: :post do |f| %>
+	  	<div class="form-group">
+	  		<div class="col-sm-12 col-md-6 col-md-offset-2">
+		  		<%= f.label 'Manager Name' %>
+		  		<%= f.select :manager_id, @managers.map {|manager| [manager.name, manager.id]}, {prompt: '- Please Select -'}, {class: 'form-control'} %>
+		  	</div>
+	  	</div>
+	  	<div class="form-group">
+	  		<div class="col-sm-12 col-md-6 col-md-offset-2">
+		  		<%= f.label "Request Type" %>
+		  		<%= f.select :time_off_type, @request_types.map {|type| type}, {prompt: '- Please Select -'}, {class: 'form-control '} %>
+		  	</div>
+	  	</div>
+	  	<div class="form-group">
+	  		<div class="col-sm-12 col-md-3 col-md-offset-2">
+		  		<%= f.label "Start Date" %>
+		  		<%= f.text_field :date_start, class: 'form-control', id: 'start_date' %>
+		  	</div>
+		  	<div class="col-sm-12 col-md-3">
+		  		<%= f.label "End Date" %>
+		  		<%= f.text_field :date_end, class: 'form-control', id: 'end_date' %>
+	  		</div>
+	  	</div>
+	  	<div class="form-group hide" id="total_hours">
+	  		<div class="col-sm-12 col-md-6 col-md-offset-2">
+		  		<%= f.label "How many hours?" %>
+		  		<%= f.select :hours, @hours.map {|hour| hour}, {prompt: '- Please Select -'}, {class: 'form-control '} %>
+	  		</div>
+	  	</div>
+	  	<div class="form-group">
+	  		<div class="col-sm-12 col-md-6 col-md-offset-2" style="margin-top:15px;">
+		  		<%= f.submit "Ask Off", class: 'btn btn-block btn-primary' %>
+	  		</div>
+	  	</div>
+	  <% end %>
+	</div>
+</div>
