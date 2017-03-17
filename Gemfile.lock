@@ -238,6 +238,7 @@ DEPENDENCIES
   factory_girl_rails
   jbuilder (~> 2.5)
   jquery-rails
+  listen
   mysql2
   passenger
   puma (~> 3.0)
