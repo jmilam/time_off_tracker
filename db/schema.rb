@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170317130735) do
+ActiveRecord::Schema.define(version: 20170320133003) do
 
   create_table "departments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -30,12 +30,12 @@ ActiveRecord::Schema.define(version: 20170317130735) do
     t.string   "time_off_type"
     t.datetime "date_start"
     t.datetime "date_end"
-    t.boolean  "approved"
     t.string   "approved_by"
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
     t.integer  "hours",         default: 0
     t.integer  "manager_id"
+    t.boolean  "approved"
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

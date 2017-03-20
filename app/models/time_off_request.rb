@@ -4,6 +4,7 @@ class TimeOffRequest < ApplicationRecord
 	belongs_to :manager
 
 	scope :not_approved, -> {where(approved: false)}
+	scope :pending, -> {where(approved: nil)}
 
 	def status
 		case self.approved

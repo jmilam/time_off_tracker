@@ -1,0 +1,52 @@
+<%= form_for @user, url: user_path(@user.id), action: :put do |f| %>
+	 <div class="field">
+    <%= f.label :first_name %><br />
+    <%= f.text_field :first_name, autofocus: true, class: "form-control" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :last_name %><br />
+    <%= f.text_field :last_name, class: "form-control" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.email_field :email, class: "form-control" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :department %><br />
+    <%= f.select :department_id, @departments.map {|dept| [dept.name, dept.id]}, {prompt: '- Please Select -'}, {class: 'form-control'} %>
+  </div>
+
+  <div class="row">
+	  <div class="col-sm-12 col-md-6">
+		  <div class="field">
+		  	<%= f.label 'Vacation Totals' %>
+		  	<%= f.text_field :vacation_total, class: 'form-control' %>
+		  </div>
+		</div>
+
+		<div class="col-sm-12 col-md-6">
+			<div class="field">
+		  	<%= f.label 'Personal Totals' %>
+		  	<%= f.text_field :personal_total, class: 'form-control' %>
+		  </div>
+		</div>
+
+		<div class="col-sm-12 col-md-4">
+			<div class="field" style="margin-top:15px;">
+		  	<%= f.label 'Admin' %>
+		  	<%= f.check_box :admin, {class: 'align-middle'}, true, false %>
+		  </div>
+		</div>
+
+		<div class="col-sm-12 col-md-8">
+			<%= f.submit 'Update User', class: 'btn btn-primary pull-right', style: 'margin-top:15px;' %>
+		</div>
+	</div>
+
+
+		
+
+<% end %>
