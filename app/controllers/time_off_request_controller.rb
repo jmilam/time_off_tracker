@@ -36,16 +36,16 @@ class TimeOffRequestController < ApplicationController
 
 	def update
 		@request = TimeOffRequest.find(params[:id])
-		p @request.approved = params[:status] == "approved" ? true : false
+		@request.approved = params[:status] == "approved" ? true : false
 		@request.approved_by = "#{current_user.first_name} #{current_user.last_name}"
 
-		# if @request.save
+		if @request.save
 			uri = URI(web_api + 'email/time_off_request/user_update')
 			response = Net::HTTP.post_form(uri, to_email: @request.user.email, approved: @request.approved, approved_by: @request.approved_by, request_type: @request.time_off_type, start_date: @request.date_start, end_date: @request.date_end)
 			flash[:notice] = "Notification has been sent to #{@request.user.first_name} #{@request.user.last_name} about your decision."
-		# else
-		# 	flash[:error] = @request.errors
-		# end
+		else
+			flash[:error] = @request.errors
+		end
 
 		redirect_to :root
 	end
