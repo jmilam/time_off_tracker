@@ -37,6 +37,14 @@ class ManagerController < ApplicationController
 	end
 
 	def destroy
+		@manager = Manager.find(params[:id])
+
+		if @manager.delete
+			flash[:notice] = "Manager was deleted"
+		else
+			flash[:error] = @manager.error
+		end
+		redirect_to manager_index_path
 	end
 
 	private

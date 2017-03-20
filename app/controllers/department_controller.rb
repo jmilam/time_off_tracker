@@ -40,7 +40,7 @@ class DepartmentController < ApplicationController
 			flash[:error] = @department.errors
 		end
 
-		reidrect_to department_index_path
+		redirect_to department_index_path
 	end
 
 	private

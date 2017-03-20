@@ -1,6 +1,6 @@
 class TimeOffRequest < ApplicationRecord
 	validates :manager_id, :time_off_type, :date_start, :date_end, presence: true
-	belongs_to :user
+	belongs_to :user, dependent: :destroy
 	belongs_to :manager
 
 	scope :not_approved, -> {where(approved: false)}
