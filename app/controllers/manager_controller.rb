@@ -1,7 +1,7 @@
 class ManagerController < ApplicationController
 
 	def index
-		@managers = Manager.all
+		@managers = Manager.all.sort_by {|manager| manager.department.name }
 	end
 
 	def new
@@ -50,6 +50,6 @@ class ManagerController < ApplicationController
 	private
 
 	def manager_params
-		params.require(:manager).permit(:name, :department_id)
+		params.require(:manager).permit(:name, :email, :department_id)
 	end
 end
