@@ -7,6 +7,6 @@ class ApplicationController < ActionController::Base
   end
 
   def init_exchange
-  	@exchange_server = Exchange.new('https://ncmail1.enduraproducts.com/ews/Exchange.asmx', 'jmilam', 'jm1010')
+  	@exchange_server = Exchange.new('https://ncmail1.enduraproducts.com/ews/Exchange.asmx', 'notification', '3ndur@notification')
   end
 end
