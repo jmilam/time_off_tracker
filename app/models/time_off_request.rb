@@ -5,17 +5,18 @@ class TimeOffRequest < ApplicationRecord
 
 	scope :not_approved, -> {where(approved: false)}
 	scope :pending, -> {where(approved: nil)}
-	scope :vacation, -> {where(time_off_type: "Vacation")}
-	scope :personal, -> {where(time_off_type: "Personal")}
+	scope :approved, -> {where(approved: true)}
+	scope :vacation, -> {where(time_off_type: "Vacation", cancelled: false)}
+	scope :personal, -> {where(time_off_type: "Personal", cancelled: false)}
 
 	def status
 		case self.approved
 		when true
-			"Approved"
+			canceled? ? "Cancelled" : "Approved"
 		when false
-			"Not Approved"
+			canceled? ? "Canceled" : "Not Approved"
 		when nil
-			"Pending"
+			cancelled? ? "Canceled" : "Pending"
 		end
 	end
 
@@ -29,5 +30,9 @@ class TimeOffRequest < ApplicationRecord
 				self.hours
 			end
 		end
+	end
+
+	def canceled?
+		self.cancelled
 	end
 end

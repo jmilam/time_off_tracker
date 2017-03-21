@@ -19,6 +19,10 @@ html, body {
 	min-height: 100%;
 }
 
+.right-border {
+    border-right: 1px solid black
+}
+
 .sidebar{
     position: fixed;
     top: 51px;

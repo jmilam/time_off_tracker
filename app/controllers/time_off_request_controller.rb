@@ -43,7 +43,7 @@ class TimeOffRequestController < ApplicationController
 			if @request.save
 				uri = URI(web_api + 'email/time_off_request/user_update')
 				response = Net::HTTP.post_form(uri, to_email: @request.user.email, approved: @request.approved, approved_by: @request.approved_by, request_type: @request.time_off_type, start_date: @request.date_start, end_date: @request.date_end)
-				@exchange_server.add_to_calendar(@request.approved_by, @request.time_off_type, @request.date_start,@request.date_end, @request.hours)
+				@exchange_server.add_to_calendar(@request.approved_by, @request.time_off_type, @request.date_start,@request.date_end, @request.hours) if @request.approved == true
 				flash[:notice] = "Notification has been sent to #{@request.user.first_name} #{@request.user.last_name} about your decision."
 			else
 				flash[:error] = @request.errors
@@ -58,9 +58,22 @@ class TimeOffRequestController < ApplicationController
 	def destroy
 	end
 
+	def cancel
+		begin
+			if TimeOffRequest.update(params[:id], cancelled: true)
+				flash[:notice] = "Time Off Request has been canceled."
+			else
+				flash[:error] = "There was an error when canceling Time Off Request."
+			end
+		rescue => error
+			flash[:error] = "There was an error when canceling Time Off Request."
+		end
+		redirect_to :root
+	end
+
 	private
 
 	def time_off_params
-		params.require(:request).permit(:manager_id, :time_off_type, :date_start, :date_end, :hours)
+		params.require(:request).permit(:manager_id, :time_off_type, :date_start, :date_end, :hours, :cancelled, :approved, :approved_by)
 	end
 end

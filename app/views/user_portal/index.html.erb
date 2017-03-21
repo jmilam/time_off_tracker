@@ -12,7 +12,7 @@
         </div>
         <div class="panel-body">
           <ul class="list-inline text-center">
-            <li class="col-sm-12 col-md-6">
+            <li class="col-sm-12 col-md-6 right-border">
               <b>Vaction Hours</b>
               <ul class="list-inline">
                 <li class="col-sm-12 col-md-4">Available</li>
@@ -69,15 +69,18 @@
   		          </tr>
   		        </thead>
   		       	<tbody>
-  		       		<% @user.time_off_requests.each do |request| %>
+  		       		<% @time_requests.each do |t_request| %>
+                  <% t_request.each do |request| %>
+
   								<tr>
   									<td><%= @user.first_name %> <%= @user.last_name %></td>
   									<td><%= request.time_off_type %></td>
   									<td><%= request.date_start.strftime('%m-%d-%Y') %></td>
   									<td><%= request.date_end.strftime('%m-%d-%Y') %></td>
   									<td><%= request.status %></td>
-  									<td><%= link_to 'Cancel', "#", data: {confirm: "Are you sure you want to delete this request. It will be deleted forever, and you will have to put in a new request."} %></td>
+  									<td><%= link_to 'Cancel', time_off_request_cancel_path(id: request.id), method: :put, data: {confirm: "Are you sure you want to cancel this request. You will not be able to restore this request. You will have to make the request again."} unless request.cancelled || request.approved == false %></td>
   								</tr>
+                  <% end %>
   							<% end %>
   		       	</tbody>
   	        </table>
@@ -148,31 +151,32 @@
             <% else %>
               <table class="table table-striped" >
                 <thead>
-                  <tr>
+                  <tr style="background-color:lightgray;">
                     <th></th>
-                    <th colspan=3 class="text-center">Vcation Time (Hours)</th>
+                    <th colspan=3 class="text-center">Vacation Time (Hours)</th>
                     <th colspan=3 class="text-center">Personal Time (Hours)</th>
                   </tr>
-                  <tr>
+                  <tr style="background-color:lightyellow;">
                     <th>Name </th>
                     <th class="text-center">Available</th>
                     <th class="text-center">Used</th>
                     <th class="text-center">Pending</th>
                     <th class="text-center">Available</th>
-                    <th class="text-center">Pending</th>
                     <th class="text-center">Used</th>
+                    <th class="text-center">Pending</th>
                   </tr>
                 </thead>
                 <tbody>
                   <% @employees.each do |emp| %>
                     <tr>
                       <td><%= emp.first_name %> <%= emp.last_name %></td>
-                      <td class="text-center"><%= emp.vacation_total %></td>
-                      <td class="text-center"><%= emp.time_off_requests.vacation.inject(0) {|sum, request| sum + request.days_to_hours} %></td>
-                      <td class="text-center"><%= emp.time_off_requests.personal.inject(0) {|sum, request| sum + request.days_to_hours} %></td>
-                      <td class="text-center"><%= emp.personal_total %></td>
-                      <td class="text-center"><%= emp.time_off_requests.vacation.pending.inject(0) {|sum, request| sum + request.days_to_hours} %></td>
-                      <td class="text-center"><%= emp.time_off_requests.personal.pending.inject(0) {|sum, request| sum + request.days_to_hours} %></td>
+                      <% emp = emp.user_totals %>
+                      <td class="text-center"><%= emp[:vacation][:available] %></td>
+                      <td class="text-center"><%= emp[:vacation][:used] %></td>
+                      <td class="text-center"><%= emp[:vacation][:pending] %></td>
+                      <td class="text-center"><%= emp[:personal][:available] %></td>
+                      <td class="text-center"><%= emp[:personal][:used] %></td>
+                      <td class="text-center"><%= emp[:personal][:pending] %></td>
 
                     </tr>
                   <% end %>

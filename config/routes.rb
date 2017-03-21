@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   get 'user_portal/index'
-
+  put 'time_off_request/cancel'
   # devise_for :users
  	Rails.application.routes.draw do
     devise_for :users, controllers: {
