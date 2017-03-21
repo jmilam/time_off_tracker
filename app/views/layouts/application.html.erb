@@ -45,15 +45,21 @@
     <div class="body-content">
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar" style="padding-left: 0px;padding-right: 0px;">
-        	<ul class="nav nav-sidebar">
-            <!-- <li><span><%#= image_tag("endura_logo.png", data: {title: "Endura"}) %></span></li> -->
-        		<li><%#= link_to "Endura Catalog Request Form", user_portal_index_path(partial: "catalog_request")%></li>
-        		<li><%#= link_to "Endura Marketing Request Form", user_portal_index_path(partial: "general_request")%></li>
-        		<li><%#= link_to "Endura Image Requst Form", user_portal_index_path(partial: "image_request")%></li>
-        		<li><%#= link_to "Products And Offering list",user_portal_index_path(partial: "offering_list")%></li>
-        		<li><%#= link_to "Endura Marketing Update Request Form", user_portal_index_path(partial: "update_request") %></li>
-
-        	</ul> 
+        	<div class="nav nav-sidebar">
+          <table class="table">
+            <% current_user.time_off_requests.includes(:user).order('date_start ASC').each do |request| %>
+              <% if Date.today.strftime("%Y") == request.date_start.strftime("%Y") && request.approved && request.cancelled == false %>
+                  <thead class=<%= background_color(request.date_start.strftime("%m")) %>><tr><th class="text-center" colspan=2><%= request.date_start.strftime("%B - %d") %></th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td><%= request.user.first_name %> <%= request.user.last_name %></td>
+                      <td><%= request.time_off_type %></td>
+                    </tr>   
+                  </tbody>
+              <% end %>      
+            <% end %>
+            </table>
+        	</div> 
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           <div style="margin-top: 60px;">
@@ -68,9 +74,9 @@
   	                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
   	                <strong>Error!</strong> 
   	                <ul>
-  	                  <%# flash[:error].each do |error| %>
-  	                      <li><%#= error %></li>
-  	                  <%# end %>
+  	                  <% flash[:error].each do |error| %>
+  	                      <li><%= error %></li>
+  	                  <% end %>
   	                </ul>
   	              </div>
   	            <% end %>
