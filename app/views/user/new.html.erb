@@ -36,6 +36,25 @@
     <%= f.select :department_id, @departments.map {|dept| [dept.name, dept.id]}, {prompt: '- Please Select -'}, {class: 'form-control'} %>
   </div>
 
+  <div class="col-sm-12 col-md-4">
+      <div class="field" style="margin-top:15px;">
+        <%= f.label 'Admin' %>
+        <%= f.check_box :admin, {class: 'align-middle'}, true, false %>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-4">
+      <div class="field" style="margin-top:15px;">
+        <%= f.label 'Payroll' %>
+        <%= f.check_box :payroll, {class: 'align-middle'}, true, false %>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-4">
+      <div class="field" style="margin-top:15px;">
+        <%= f.label 'Account Manager' %>
+        <%= f.check_box :account_manager, {class: 'align-middle'}, true, false %>
+      </div>
+    </div>
+
   <div class="actions"  style="padding-top:15px;">
     <%= f.submit "Create User", class: "btn btn-success"%>
   </div>

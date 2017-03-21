@@ -6,4 +6,5 @@ class User < ApplicationRecord
   has_many :time_off_requests
   has_many :managers, through: :department
   belongs_to :department
+
 end

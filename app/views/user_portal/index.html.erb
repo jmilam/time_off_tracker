@@ -3,7 +3,44 @@
       <%#= date %>
     <%# end %> -->
   <div class="row">
-
+    <div class="col-sm-12 col-md-10 col-md-offset-1">
+      <div class="panel panel-success">
+        <div class="panel-heading">
+          <div class="panel-title">
+            Available Time Overview
+          </div>
+        </div>
+        <div class="panel-body">
+          <ul class="list-inline text-center">
+            <li class="col-sm-12 col-md-6">
+              <b>Vaction Hours</b>
+              <ul class="list-inline">
+                <li class="col-sm-12 col-md-4">Available</li>
+                <li class="col-sm-12 col-md-4">Used</li>
+                <li class="col-sm-12 col-md-4">Pending</li>
+              </ul>
+              <ul class="list-inline">
+                <li class="col-sm-12 col-md-4"><%= @user.vacation_total - @used_vac - @pending_vac_total %></li>
+                <li class="col-sm-12 col-md-4"><%= @used_vac %></li>
+                <li class="col-sm-12 col-md-4"><%= @pending_vac_total %></li>
+              </ul>
+            </li>
+            <li class="col-sm-12 col-md-6">
+              <b>Personal Hours</b>
+              <ul class="list-inline">
+                <li class="col-sm-12 col-md-4">Available</li>
+                <li class="col-sm-12 col-md-4">Used</li>
+                <li class="col-sm-12 col-md-4">Pending</li>
+              </ul>
+              <ul class="list-inline">
+                <li class="col-sm-12 col-md-4"><%= @user.personal_total - @used_personal - @pending_personal_total %></li>
+                <li class="col-sm-12 col-md-4"><%= @used_personal %></li>
+                <li class="col-sm-12 col-md-4"><%= @pending_personal_total %></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
   </div>
 	<div class="row">
     <div class="col-sm-12 col-md-10 col-md-offset-1">
@@ -112,17 +149,31 @@
               <table class="table table-striped" >
                 <thead>
                   <tr>
+                    <th></th>
+                    <th colspan=3 class="text-center">Vcation Time (Hours)</th>
+                    <th colspan=3 class="text-center">Personal Time (Hours)</th>
+                  </tr>
+                  <tr>
                     <th>Name </th>
-                    <th>Vacation Time (Hours)</th>
-                    <th>Personal Time (Hours)</th>
+                    <th class="text-center">Available</th>
+                    <th class="text-center">Used</th>
+                    <th class="text-center">Pending</th>
+                    <th class="text-center">Available</th>
+                    <th class="text-center">Pending</th>
+                    <th class="text-center">Used</th>
                   </tr>
                 </thead>
                 <tbody>
                   <% @employees.each do |emp| %>
                     <tr>
                       <td><%= emp.first_name %> <%= emp.last_name %></td>
-                      <td><%= emp.vacation_total %></td>
-                      <td><%= emp.personal_total %></td>
+                      <td class="text-center"><%= emp.vacation_total %></td>
+                      <td class="text-center"><%= emp.time_off_requests.vacation.inject(0) {|sum, request| sum + request.days_to_hours} %></td>
+                      <td class="text-center"><%= emp.time_off_requests.personal.inject(0) {|sum, request| sum + request.days_to_hours} %></td>
+                      <td class="text-center"><%= emp.personal_total %></td>
+                      <td class="text-center"><%= emp.time_off_requests.vacation.pending.inject(0) {|sum, request| sum + request.days_to_hours} %></td>
+                      <td class="text-center"><%= emp.time_off_requests.personal.pending.inject(0) {|sum, request| sum + request.days_to_hours} %></td>
+
                     </tr>
                   <% end %>
                 </tbody>
