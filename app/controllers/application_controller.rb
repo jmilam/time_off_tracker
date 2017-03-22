@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
-  before_action :authenticate_user!, :web_api, :init_exchange
+  before_action :authenticate_user!, except: [:tomorrow_requests]
+  before_action :web_api, :init_exchange
   helper_method :background_color
 
   def web_api

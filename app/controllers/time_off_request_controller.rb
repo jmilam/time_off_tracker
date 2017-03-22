@@ -71,6 +71,13 @@ class TimeOffRequestController < ApplicationController
 		redirect_to :root
 	end
 
+	def tomorrow_requests
+		@requests = TimeOffRequest.where(date_start: Date.tomorrow, approved: true, cancelled: false).includes(:user)
+		respond_to do |format| 
+			format.json {render json: {requests: @requests}}
+		end
+	end
+
 	private
 
 	def time_off_params

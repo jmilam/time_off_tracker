@@ -4,4 +4,15 @@
 			<th>Report Name</th>
 		</tr>
 	</thead>
+	<tbody>
+		<tr>
+			<td><%= link_to 'Requests for upcoming week', report_index_path(report: "next_week"), method: :post %></td>
+		</tr>
+		<tr>
+			<td><%= link_to 'Requests for current month', report_index_path(report: "current_month"), method: :post %></td>
+		</tr>
+		<tr>
+			<td><%= link_to 'Requests for next month', report_index_path(report: "next_month"), method: :post %></td>
+		</tr>
+	</tbody>
 </table>
