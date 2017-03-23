@@ -23,7 +23,7 @@
 		   						<span><%= image_tag("endura-check.svg", height: 30, data: {title: "Endura"}) %></span>
                 <% end %>
             </div>
-            <div class="navbar-collapse collapse">
+            <div class="navbar-collapse collapse text-center">
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Functions<span class="caret"></span></a>
@@ -44,7 +44,7 @@
     </div>
     <div class="body-content">
       <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar" style="padding-left: 0px;padding-right: 0px;">
+        <div class="col-sm-3 col-md-2 sidebar hidden-xs" style="padding-left: 0px;padding-right: 0px;">
         	<div class="nav nav-sidebar">
           <table class="table">
             <% current_user.time_off_requests.includes(:user).order('date_start ASC').each do |request| %>

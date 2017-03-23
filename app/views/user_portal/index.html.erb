@@ -15,21 +15,21 @@
             <li class="col-sm-12 col-md-6">
               <b>Vaction Hours</b>
               <ul class="list-inline">
-                <li class="col-sm-12 col-md-2"><div class="row">Beginning</div><div class="row"><%= @user.vacation_total %></div></li>
-                <li class="col-sm-12 col-md-2"><div class="row">Available</div><div class="row"><%= @user.vacation_total - @used_vac %></div></li>
-                <li class="col-sm-12 col-md-3"><div class="row">Approved not taken</div><div class="row"><%= @approved_not_taken_vac %></div></li>
-                <li class="col-sm-12 col-md-2"><div class="row">Used</div><div class="row"><%= @used_vac %></div></li>
-                <li class="col-sm-12 col-md-2"><div class="row">Pending</div><div class="row"><%= @pending_vac_total %></div></li>
+                <li class="col-xs-6 col-sm-3 col-md-2"><div class="row">Beginning</div><div class="row"><%= @user.vacation_total %></div></li>
+                <li class="col-xs-6 col-sm-2 col-md-2"><div class="row">Available</div><div class="row"><%= @user.vacation_total - @used_vac %></div></li>
+                <li class="col-xs-12 col-sm-3 col-md-3"><div class="row">Approved not taken</div><div class="row"><%= @approved_not_taken_vac %></div></li>
+                <li class="col-xs-6 col-sm-2 col-md-2"><div class="row">Used</div><div class="row"><%= @used_vac %></div></li>
+                <li class="col-xs-6 col-sm-2 col-md-2"><div class="row">Pending</div><div class="row"><%= @pending_vac_total %></div></li>
               </ul>
             </li>
             <li class="col-sm-12 col-md-6">
               <b>Personal Hours</b>
               <ul class="list-inline">
-                <li class="col-sm-12 col-md-2"><div class="row">Beginning</div><div class="row"><%= @user.personal_total %></div></li>
-                <li class="col-sm-12 col-md-2"><div class="row">Available</div><div class="row"><%= @user.personal_total - @used_personal %></div></li>
-                <li class="col-sm-12 col-md-3"><div class="row">Approved not taken</div><div class="row"><%= @approved_not_taken_personal %></div></li>
-                <li class="col-sm-12 col-md-2"><div class="row">Used</div><div class="row"><%= @used_personal %></div></li>
-                <li class="col-sm-12 col-md-2"><div class="row">Pending</div><div class="row"><%= @pending_personal_total %></div></li>
+                <li class="col-xs-6 col-sm-3 col-md-2"><div class="row">Beginning</div><div class="row"><%= @user.personal_total %></div></li>
+                <li class="col-xs-6 col-sm-2 col-md-2"><div class="row">Available</div><div class="row"><%= @user.personal_total - @used_personal %></div></li>
+                <li class="col-xs-12 col-sm-3 col-md-3"><div class="row">Approved not taken</div><div class="row"><%= @approved_not_taken_personal %></div></li>
+                <li class="col-xs-6 col-sm-2 col-md-2"><div class="row">Used</div><div class="row"><%= @used_personal %></div></li>
+                <li class="col-xs-6 col-sm-2 col-md-2"><div class="row">Pending</div><div class="row"><%= @pending_personal_total %></div></li>
               </ul>
             </li>
           </ul>
