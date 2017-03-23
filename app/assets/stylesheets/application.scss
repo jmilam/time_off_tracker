@@ -17,12 +17,19 @@
 html, body {
 	height: 100%;
 	min-height: 100%;
+
 }
 
+.login-page {
+    ;
+}
 .right-border {
     border-right: 1px solid black
 }
 
+.panel {
+  box-shadow: 1px 2px 2px #888888
+}
 .panel-body {
     overflow: auto;
 }
@@ -40,6 +47,7 @@ html, body {
     overflow-y: auto;
     background-color: #AAAAAA;
     border-right: 1px solid #eee;
+    box-shadow: 1px 2px 2px #888888
 }
 
 .main{
