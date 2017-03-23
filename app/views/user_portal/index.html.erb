@@ -4,8 +4,8 @@
     <%# end %> -->
   <div class="row">
     <div class="col-sm-12 col-md-12">
-      <div class="panel panel-success">
-        <div class="panel-heading">
+      <div class="panel panel-default">
+        <div class="panel-heading" style="background-color:#92B3B0">
           <div class="panel-title">
             Available Time Overview
           </div>
@@ -39,8 +39,8 @@
   </div>
 	<div class="row">
     <div class="col-sm-12 col-md-12">
-	    <div class="panel panel-primary" >
-	      <div class="panel-heading" >
+	    <div class="panel panel-default" >
+	      <div class="panel-heading" style="background-color:#082650;color:#C1E1D2">
 	        <div class="panel-title" >
 	          My Vacation Request's
 	        	<%= link_to "New Request", new_time_off_request_path, class: "pull-right" %>
@@ -91,13 +91,13 @@
   	<div class="row">
       <div class="col-sm-12 col-md-12">
         <div class="panel panel-danger" >
-          <div class="panel-heading" >
+          <div class="panel-heading" style="background-color:#D63E4B;color:white;">
             <div class="panel-title" >
               Employee Vacation Request's Waiting for your Approval
             </div>
           </div>
           <div class="panel-body" %>
-            <% if @user.time_off_requests.count == 0 %>
+            <% if @manager_approvals.count == 0 %>
               <div class="jumbotron">
                 <p class="text-center">You have no Time Off Requests Pending.</p>
               </div>
@@ -134,8 +134,8 @@
 
     <div class="row">
       <div class="col-sm-12 col-md-12">
-        <div class="panel panel-warning" >
-          <div class="panel-heading" >
+        <div class="panel panel-default" >
+          <div class="panel-heading" style="background-color: #DEBF89;">
             <div class="panel-title" >
               Department Employee Time Off Details
             </div>
@@ -148,12 +148,12 @@
             <% else %>
               <table class="table table-striped" >
                 <thead>
-                  <tr style="background-color:lightgray;">
+                  <tr style="background-color:#AAAAAA;">
                     <th></th>
                     <th colspan=5 class="text-center">Vacation Time (Hours)</th>
                     <th colspan=5 class="text-center">Personal Time (Hours)</th>
                   </tr>
-                  <tr style="background-color:lightyellow;">
+                  <tr style="background-color:#E2E2D8;">
                     <th>Name </th>
                     <th class="text-center">Beginning</th>
                     <th class="text-center">Available</th>

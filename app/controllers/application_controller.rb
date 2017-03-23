@@ -17,9 +17,9 @@ class ApplicationController < ActionController::Base
 
   	case 
   	when month.to_i < current_month
-  		"bg-danger"
+  		"#D63E4B"
   	else
-  		"bg-success"
+  		"#CFEDB9"
   	end
   end
 end
