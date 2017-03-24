@@ -13,19 +13,20 @@
         <div class="panel-body">
           <ul class="list-inline text-center">
             <li class="col-sm-12 col-md-6">
-              <b>Vaction Hours</b>
+              <b>Vaction Time (Hours)</b>
               <ul class="list-inline">
-                <li class="col-xs-6 col-sm-3 col-md-2"><div class="row">Beginning</div><div class="row"><%= @user.vacation_total %></div></li>
+                <li class="col-xs-6 col-sm-3 col-md-3"><div class="row">Beginning</div><div class="row"><%= @user.vacation_total %></div></li>
                 <li class="col-xs-6 col-sm-2 col-md-2"><div class="row">Available</div><div class="row"><%= @user.vacation_total - @used_vac %></div></li>
                 <li class="col-xs-12 col-sm-3 col-md-3"><div class="row">Approved not taken</div><div class="row"><%= @approved_not_taken_vac %></div></li>
                 <li class="col-xs-6 col-sm-2 col-md-2"><div class="row">Used</div><div class="row"><%= @used_vac %></div></li>
                 <li class="col-xs-6 col-sm-2 col-md-2"><div class="row">Pending</div><div class="row"><%= @pending_vac_total %></div></li>
               </ul>
             </li>
-            <li class="col-sm-12 col-md-6">
-              <b>Personal Hours</b>
+
+            <li class="col-sm-12 col-md-6 left-border">
+              <b>Personal Time (Hours)</b>
               <ul class="list-inline">
-                <li class="col-xs-6 col-sm-3 col-md-2"><div class="row">Beginning</div><div class="row"><%= @user.personal_total %></div></li>
+                <li class="col-xs-6 col-sm-3 col-md-3"><div class="row">Beginning</div><div class="row"><%= @user.personal_total %></div></li>
                 <li class="col-xs-6 col-sm-2 col-md-2"><div class="row">Available</div><div class="row"><%= @user.personal_total - @used_personal %></div></li>
                 <li class="col-xs-12 col-sm-3 col-md-3"><div class="row">Approved not taken</div><div class="row"><%= @approved_not_taken_personal %></div></li>
                 <li class="col-xs-6 col-sm-2 col-md-2"><div class="row">Used</div><div class="row"><%= @used_personal %></div></li>
@@ -56,11 +57,11 @@
   	     			<thead>
   		     			<tr>
   		          	<th>Name </th>
-  		          	<th>Request Type</th>
-  		          	<th>Start Date</th>
-  		          	<th>End Date</th>
-  		          	<th>Approved</th>
-                  <th>Hours</th>
+  		          	<th class="text-center">Request Type</th>
+  		          	<th class="text-center">Start Date</th>
+  		          	<th class="text-center">End Date</th>
+  		          	<th class="text-center">Approved</th>
+                  <th class="text-center">Hours</th>
   		          	<th></th>
   		          </tr>
   		        </thead>
@@ -70,11 +71,11 @@
 
   								<tr>
   									<td><%= @user.first_name %> <%= @user.last_name %></td>
-  									<td><%= request.time_off_type %></td>
-  									<td><%= request.date_start.strftime('%m-%d-%Y') %></td>
-  									<td><%= request.date_end.strftime('%m-%d-%Y') %></td>
-  									<td><%= request.status %></td>
-                    <td><%= request.hours.nil? ? 0 : request.hours %></td>
+  									<td class="text-center"><%= request.time_off_type %></td>
+  									<td class="text-center"><%= request.date_start.strftime('%m-%d-%Y') %></td>
+  									<td class="text-center"><%= request.date_end.strftime('%m-%d-%Y') %></td>
+  									<td class="text-center"><%= request.status %></td>
+                    <td class="text-center"><%= request.hours.nil? ? request.days_to_hours : request.hours %></td>
   									<td><%= link_to 'Cancel', time_off_request_cancel_path(id: request.id), method: :put, data: {confirm: "Are you sure you want to cancel this request. You will not be able to restore this request. You will have to make the request again."} unless request.cancelled || request.approved == false %></td>
   								</tr>
                   <% end %>

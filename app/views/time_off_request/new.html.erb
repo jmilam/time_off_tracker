@@ -7,9 +7,9 @@
 	</div>
 	<div class="row">
 		<div class="col-sm-12 col-md-6 col-md-offset-2">
-		  <div class="panel panel-success">
-		    <div class="panel-heading">
-		      <div class="panel-title">
+		  <div class="panel panel-default">
+		    <div class="panel-heading" style="background-color:#92B3B0">
+		      <div class="panel-title text-center">
 		        Available Time Overview
 		      </div>
 		    </div>
@@ -17,7 +17,7 @@
 		    	<ul class="list-inline text-center">
 		    		<li>
 		    			<div class="col-sm-12 col-md-12">
-			    			<b>Vaction Days Available</b>
+			    			<b>Vaction Time (Hours)</b>
 			    		</div>
 			    		<div class="col-sm-12 col-md-12">
 			    			<%= @user.vacation_total %>
@@ -25,7 +25,7 @@
 		    		</li>
 		    		<li>
 		    			<div class="col-sm-12 col-md-12">
-			    			<b>Personal Days Avaialble</b>
+			    			<b>Personal Time (Hours)</b>
 			    		</div>
 			    		<div class="col-sm-12 col-md-12">
 			    			<%= @user.personal_total %>
