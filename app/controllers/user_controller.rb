@@ -15,7 +15,7 @@ class UserController < ApplicationController
 	end
 
 	def create
-		p @user = User.new(user_params)
+		@user = User.new(user_params)
 		if @user.save
 			flash[:notice] = "User successfully updated"
 			redirect_to user_index_path

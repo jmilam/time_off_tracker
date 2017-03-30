@@ -1,0 +1,20 @@
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Holiday Name</th>
+			<th>Holiday Date</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @holidays.each do |holiday| %>
+			<tr>
+				<td><%= holiday.name %></td>
+				<td><%= holiday.date.strftime("%m/%d/%Y") %></td>
+				<td><%= link_to 'Edit', edit_holiday_path(holiday.id) %> | <%= link_to 'Delete', holiday_path(holiday.id), method: :delete %>
+			</tr>
+		<% end %>
+		<tr>
+			<td colspan="3"><%= link_to 'New Holiday', new_holiday_path, class: 'pull-right' %></td>
+		</tr>
+	</td>
+</table>

@@ -1,7 +1,10 @@
 class ApplicationController < ActionController::Base
+  # rescue_from DeviseLdapAuthenticatable::LdapException do |exception|
+  #   render :text => exception, :status => 500
+  # end
   protect_from_forgery with: :exception
   before_action :authenticate_user!, except: [:tomorrow_requests]
-  before_action :web_api, :init_exchange
+  before_action :web_api, :init_exchange, :current_user
   helper_method :background_color
 
   def web_api

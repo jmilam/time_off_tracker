@@ -3,12 +3,11 @@ class TimeOffRequest < ApplicationRecord
 	validates :manager_id, :time_off_type, :date_start, :date_end, presence: true
 	belongs_to :user, dependent: :destroy
 	belongs_to :manager
+	has_many :status_changes
 
 	scope :not_approved, -> {where(approved: false)}
 	scope :pending, -> {where(approved: nil)}
 	scope :approved, -> {where(approved: true)}
-	scope :approved_taken, -> {where('approved = ? AND date_start < ?', true, Date.today)}
-	scope :approved_not_taken, -> {where('approved = ? AND date_start > ?', true, Date.today)}
 	scope :vacation, -> {where(time_off_type: "Vacation", cancelled: false)}
 	scope :personal, -> {where(time_off_type: "Personal", cancelled: false)}
 	scope :approved_report, -> (start_date, end_date) {where('date_start >= ? AND date_end <= ? AND approved = ?', start_date, end_date, true)}

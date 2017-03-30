@@ -2,6 +2,51 @@
 <!--   <%#= month_calendar do |date| %>
       <%#= date %>
     <%# end %> -->
+<% if @user.admin? %>
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+      <div class="panel panel-danger" >
+        <div class="panel-heading" style="background-color:#D63E4B;color:white;">
+          <div class="panel-title" >
+            Employee Vacation Request's Waiting for your Approval
+          </div>
+        </div>
+        <div class="panel-body" %>
+          <% if @manager_approvals.count == 0 %>
+            <div class="jumbotron">
+              <p class="text-center">You have no Time Off Requests Pending.</p>
+            </div>
+          <% else %>
+            <table class="table table-striped" >
+              <thead>
+                <tr>
+                  <th>Name </th>
+                  <th>Request Type</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
+                  <th>Hours</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @manager_approvals.each do |request| %>
+                  <tr>
+                    <td><%= request.user.first_name %> <%= request.user.last_name %></td>
+                    <td><%= request.time_off_type %></td>
+                    <td><%= request.date_start.strftime('%m-%d-%Y') %></td>
+                    <td><%= request.date_end.strftime('%m-%d-%Y') %></td>
+                    <td><%= request.hours.nil? ? request.days_to_hours : request.hours %></td>
+                    <td><%= link_to "Approve", time_off_request_path(id: request.id, status: "approved"), method: :put, class: 'btn btn-success' %> <%= link_to "Deny", time_off_request_path(id: request.id, status: "denied"), method: :put, class: 'btn btn-danger' %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div> 
+<% end %>
   <div class="row">
     <div class="col-sm-12 col-md-12">
       <div class="panel panel-default">
@@ -15,22 +60,20 @@
             <li class="col-sm-12 col-md-6">
               <b>Vaction Time (Hours)</b>
               <ul class="list-inline">
-                <li class="col-xs-6 col-sm-3 col-md-3"><div class="row">Beginning</div><div class="row"><%= @user.vacation_total %></div></li>
-                <li class="col-xs-6 col-sm-2 col-md-2"><div class="row">Available</div><div class="row"><%= @user.vacation_total - @used_vac %></div></li>
-                <li class="col-xs-12 col-sm-3 col-md-3"><div class="row">Approved not taken</div><div class="row"><%= @approved_not_taken_vac %></div></li>
-                <li class="col-xs-6 col-sm-2 col-md-2"><div class="row">Used</div><div class="row"><%= @used_vac %></div></li>
-                <li class="col-xs-6 col-sm-2 col-md-2"><div class="row">Pending</div><div class="row"><%= @pending_vac_total %></div></li>
+                <li class="col-xs-6 col-sm-3 col-md-3"><div class="row">Allocated</div><div class="row"><%= @user.vacation_total %></div></li>            
+                <li class="col-xs-6 col-sm-3 col-md-3"><div class="row">Used</div><div class="row"><%= @used_vac %></div></li>
+                <li class="col-xs-6 col-sm-3 col-md-3"><div class="row">Pending</div><div class="row"><%= @pending_vac_total %></div></li>
+                <li class="col-xs-6 col-sm-3 col-md-3"><div class="row">Available</div><div class="row"><%= @user.vacation_total - @used_vac %></div></li>
               </ul>
             </li>
 
             <li class="col-sm-12 col-md-6 left-border">
               <b>Personal Time (Hours)</b>
               <ul class="list-inline">
-                <li class="col-xs-6 col-sm-3 col-md-3"><div class="row">Beginning</div><div class="row"><%= @user.personal_total %></div></li>
-                <li class="col-xs-6 col-sm-2 col-md-2"><div class="row">Available</div><div class="row"><%= @user.personal_total - @used_personal %></div></li>
-                <li class="col-xs-12 col-sm-3 col-md-3"><div class="row">Approved not taken</div><div class="row"><%= @approved_not_taken_personal %></div></li>
-                <li class="col-xs-6 col-sm-2 col-md-2"><div class="row">Used</div><div class="row"><%= @used_personal %></div></li>
-                <li class="col-xs-6 col-sm-2 col-md-2"><div class="row">Pending</div><div class="row"><%= @pending_personal_total %></div></li>
+                <li class="col-xs-6 col-sm-3 col-md-3"><div class="row">Allocated</div><div class="row"><%= @user.personal_total %></div></li>  
+                <li class="col-xs-6 col-sm-3 col-md-3"><div class="row">Used</div><div class="row"><%= @used_personal %></div></li>
+                <li class="col-xs-6 col-sm-3 col-md-3"><div class="row">Pending</div><div class="row"><%= @pending_personal_total %></div></li>
+                <li class="col-xs-6 col-sm-3 col-md-3"><div class="row">Available</div><div class="row"><%= @user.personal_total - @used_personal %></div></li>
               </ul>
             </li>
           </ul>
@@ -89,50 +132,6 @@
 	</div>
 
   <% if @user.admin? %>
-  	<div class="row">
-      <div class="col-sm-12 col-md-12">
-        <div class="panel panel-danger" >
-          <div class="panel-heading" style="background-color:#D63E4B;color:white;">
-            <div class="panel-title" >
-              Employee Vacation Request's Waiting for your Approval
-            </div>
-          </div>
-          <div class="panel-body" %>
-            <% if @manager_approvals.count == 0 %>
-              <div class="jumbotron">
-                <p class="text-center">You have no Time Off Requests Pending.</p>
-              </div>
-            <% else %>
-              <table class="table table-striped" >
-                <thead>
-                  <tr>
-                    <th>Name </th>
-                    <th>Request Type</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
-                    <th>Hours</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% @manager_approvals.each do |request| %>
-                    <tr>
-                      <td><%= request.user.first_name %> <%= request.user.last_name %></td>
-                      <td><%= request.time_off_type %></td>
-                      <td><%= request.date_start.strftime('%m-%d-%Y') %></td>
-                      <td><%= request.date_end.strftime('%m-%d-%Y') %></td>
-                      <td><%= request.hours %></td>
-                      <td><%= link_to "Approve", time_off_request_path(id: request.id, status: "approved"), method: :put, class: 'btn btn-success' %> <%= link_to "Deny", time_off_request_path(id: request.id, status: "denied"), method: :put, class: 'btn btn-danger' %></td>
-                    </tr>
-                  <% end %>
-                </tbody>
-              </table>
-            <% end %>
-          </div>
-        </div>
-    	</div>
-    </div> 
-
     <div class="row">
       <div class="col-sm-12 col-md-12">
         <div class="panel panel-default" >
@@ -156,16 +155,14 @@
                   </tr>
                   <tr style="background-color:#E2E2D8;">
                     <th>Name </th>
-                    <th class="text-center">Beginning</th>
-                    <th class="text-center">Available</th>
-                    <th class="text-center">Approved not taken</th>
+                    <th class="text-center">Allocated</th>
                     <th class="text-center">Used</th>
                     <th class="text-center">Pending</th>
-                    <th class="text-center">Beginning</th>
                     <th class="text-center">Available</th>
-                    <th class="text-center">Approved not taken</th>
+                    <th class="text-center">Allocated</th>
                     <th class="text-center">Used</th>
                     <th class="text-center">Pending</th>
+                    <th class="text-center">Available</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -173,17 +170,14 @@
                     <tr>
                       <td><%= emp.first_name %> <%= emp.last_name %></td>
                       <% emp_hash = emp.user_totals %>
-                      <td class="text-center"><%= emp.vacation_total %></td>
-                      <td class="text-center"><%= emp_hash[:vacation][:available] - emp_hash[:vacation][:used]  %></td>
-                      <td class="text-center"><%= emp_hash[:vacation][:approved_not_taken] %></td>
-                      <td class="text-center "><%= emp_hash[:vacation][:used] %></td>
-                      <td class="text-center right-border"><%= emp_hash[:vacation][:pending] %></td>
+                      <td class="text-center"><%= emp.vacation_total %></td>                     
+                      <td class="text-center"><%= emp_hash[:vacation][:used] %></td>
+                      <td class="text-center"><%= emp_hash[:vacation][:pending] %></td>
+                      <td class="text-center right-border"><%= emp_hash[:vacation][:available] - emp_hash[:vacation][:used]  %></td>
                       <td class="text-center"><%= emp.personal_total %></td>
-                      <td class="text-center"><%= emp_hash[:personal][:available] - emp_hash[:personal][:used] %></td>
-                      <td class="text-center"><%= emp_hash[:vacation][:approved_not_taken] %></td>
                       <td class="text-center"><%= emp_hash[:personal][:used] %></td>
                       <td class="text-center"><%= emp_hash[:personal][:pending] %></td>
-
+                      <td class="text-center"><%= emp_hash[:personal][:available] - emp_hash[:personal][:used] %></td>
                     </tr>
                   <% end %>
                 </tbody>

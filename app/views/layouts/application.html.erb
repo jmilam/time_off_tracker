@@ -33,6 +33,7 @@
                         <li><%= link_to 'Managers', manager_index_path if current_user.account_manager %></li>
                         <li><%= link_to 'Departments',  department_index_path if current_user.account_manager %></li>
                         <li><%= link_to 'Reports', report_index_path if current_user.payroll || current_user.admin %></li>
+                        <li><%= link_to 'Holidays', holiday_index_path if current_user.payroll || current_user.account_manager %></li>
                       </ul>
                     </li>
                  

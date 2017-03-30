@@ -10,10 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170321174855) do
+ActiveRecord::Schema.define(version: 20170324203040) do
 
   create_table "departments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "holidays", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name"
+    t.datetime "date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -24,6 +31,15 @@ ActiveRecord::Schema.define(version: 20170321174855) do
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
     t.string   "email"
+  end
+
+  create_table "status_changes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "time_off_request_id"
+    t.string   "start_change"
+    t.string   "end_change"
+    t.datetime "date"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
   end
 
   create_table "time_off_requests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -41,18 +57,18 @@ ActiveRecord::Schema.define(version: 20170321174855) do
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "email",                  default: "",    null: false
-    t.string   "encrypted_password",     default: "",    null: false
+    t.string   "email",                  default: "",                null: false
+    t.string   "encrypted_password",     default: "",                null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,     null: false
+    t.integer  "sign_in_count",          default: 0,                 null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
+    t.datetime "created_at",                                         null: false
+    t.datetime "updated_at",                                         null: false
     t.boolean  "admin",                  default: false
     t.integer  "vacation_total",         default: 0
     t.integer  "personal_total",         default: 0
@@ -61,6 +77,7 @@ ActiveRecord::Schema.define(version: 20170321174855) do
     t.integer  "department_id"
     t.boolean  "payroll",                default: false
     t.boolean  "account_manager",        default: false
+    t.string   "site",                   default: "Endura Products"
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end

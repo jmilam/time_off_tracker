@@ -1,0 +1,26 @@
+<div class="row">
+	<h3 class="text-center">Add New Holiday</h3>
+</div>
+
+<%= render partial: 'shared/back' %>
+
+<div class="row">
+	<%= form_for :holiday, url: holiday_index_path, method: :post do |f| %>
+		<div class="form-group">
+			<div class="col-sm-12 col-md-6 col-md-offset-3">
+				<%= f.label 'Holiday Name' %>
+				<%= f.text_field :name, class: 'form-control' %>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-12 col-md-6 col-md-offset-3">
+				<%= f.label 'Holiday Date' %>
+				<%= f.text_field :date, class: 'form-control', id: 'start_date' %>
+			</div>
+		</div>
+
+		<div class="col-sm-12 col-md-6 col-md-offset-3" style="margin-top:15px;">
+			<%= f.submit "Submit" , class: 'btn btn-block btn-primary' %>
+		</div>
+	<% end %>
+</div>

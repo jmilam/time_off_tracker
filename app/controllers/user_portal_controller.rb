@@ -1,14 +1,12 @@
 class UserPortalController < ApplicationController
   def index
-  	@user = current_user
+  	p @user = current_user
 
   	@time_requests = @user.time_off_requests.order 'date_start DESC'
     
-  	@used_vac = @time_requests.vacation.approved_taken.inject(0) {|sum, request| sum + request.days_to_hours}
-  	@used_personal = @time_requests.personal.approved_taken.inject(0) {|sum, request| sum + request.days_to_hours}
+  	@used_vac = @time_requests.vacation.approved.inject(0) {|sum, request| sum + request.days_to_hours}
+  	@used_personal = @time_requests.personal.approved.inject(0) {|sum, request| sum + request.days_to_hours}
 
-    @approved_not_taken_vac = @time_requests.vacation.approved_not_taken.inject(0) {|sum, request| sum + request.days_to_hours}
-    @approved_not_taken_personal = @time_requests.personal.approved_not_taken.inject(0) {|sum, request| sum + request.days_to_hours}
 
   	@pending_vac_total = @time_requests.vacation.pending.inject(0) {|sum, request| sum + request.days_to_hours}
   	@pending_personal_total = @time_requests.personal.pending.inject(0) {|sum, request| sum + request.days_to_hours}
