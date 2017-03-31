@@ -21,8 +21,7 @@ class TimeOffRequestController < ApplicationController
 			
 			if @request.save
 				@request.status_changes.create(start_change: "New request", end_change: "Pending", date: Date.today)
-				uri = URI(web_api + 'email/time_off_request/manager_update')
-				response = Net::HTTP.post_form(uri, to_email: Manager.find(params[:request][:manager_id]).email, from_user: "#{current_user.first_name} #{current_user.last_name}", request_type: params[:request][:time_off_type], start_date: params[:request][:date_start], end_date: params[:request][:date_end], hours: params[:request][:hours])
+				response = Api.new.manager_update(params[:request], current_user)
 				flash[:notice] = "Vacation has been submitted to #{Manager.find(@request.manager_id).name}"
 				redirect_to :root
 			else
@@ -45,8 +44,7 @@ class TimeOffRequestController < ApplicationController
 			if @request.save
 				@end_status = @request.status
 				@request.status_changes.create(start_change: "#{@start_status}", end_change: "#{@end_status}", date: Date.today)
-				uri = URI(web_api + 'email/time_off_request/user_update')
-				response = Net::HTTP.post_form(uri, to_email: @request.user.email, approved: @request.approved, approved_by: @request.approved_by, request_type: @request.time_off_type, start_date: @request.date_start, end_date: @request.date_end)
+				response = Api.new.user_update(@request)
 				@exchange_server.add_to_calendar(@request.approved_by, @request.time_off_type, @request.date_start,@request.date_end, @request.hours) if @request.approved == true
 				flash[:notice] = "Notification has been sent to #{@request.user.first_name} #{@request.user.last_name} about your decision."
 			else

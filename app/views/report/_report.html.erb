@@ -1,0 +1,36 @@
+<% if @requests.count == 0 %>
+	<div class="jumbotron">
+	  <h3 class="text-center container">No data meets these search paramters</h1>
+	</div>
+<% else %>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Employee</th>
+				<th>Request Type</th>
+				<th>Start Date</th>
+				<th>End Date</th>
+				<th>Hours</th>
+				<th>Approved By</th>
+				<th>
+					<%= link_to report_index_path(report: "#{@report_type}"), method: :post, title: "Export to xls" do %>
+						<span class="glyphicon glyphicon-save-file" aria-hidden="true"></span>
+					<% end %>
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% @requests.each do |request| %>
+				<tr>
+					<td><%= request.user.first_name %> <%= request.user.last_name %></td>
+					<td><%= request.time_off_type %></td>
+					<td><%= request.date_start.to_date.strftime("%m/%d/%Y") %></td>
+					<td><%= request.date_end.to_date.strftime("%m/%d/%Y") %></td>
+					<td><%= request.hours.nil? ? request.days_to_hours : request.hours %></td>
+					<td><%= request.approved_by %></td>
+					<td></td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
+<% end %>

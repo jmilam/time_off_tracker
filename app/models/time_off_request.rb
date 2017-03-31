@@ -11,6 +11,7 @@ class TimeOffRequest < ApplicationRecord
 	scope :vacation, -> {where(time_off_type: "Vacation", cancelled: false)}
 	scope :personal, -> {where(time_off_type: "Personal", cancelled: false)}
 	scope :approved_report, -> (start_date, end_date) {where('date_start >= ? AND date_end <= ? AND approved = ?', start_date, end_date, true)}
+	scope :upcoming_week, -> {where('date_start >= ? AND date_end <= ? AND approved = ?', Date.today.next_week.beginning_of_week, Date.today.next_week.end_of_week, true)}
 
 	def status
 		case self.approved

@@ -6,13 +6,15 @@
 	</thead>
 	<tbody>
 		<tr>
-			<td><%= link_to 'Requests for upcoming week', report_index_path(report: "next_week"), method: :post %></td>
+			<td><%= link_to 'Requests for upcoming week', report_index_path(report: "next_week"), remote: true %></td>
 		</tr>
 		<tr>
-			<td><%= link_to 'Requests for current month', report_index_path(report: "current_month"), method: :post %></td>
+			<td><%= link_to 'Requests for current month', report_index_path(report: "current_month"), remote: true %></td>
 		</tr>
 		<tr>
-			<td><%= link_to 'Requests for next month', report_index_path(report: "next_month"), method: :post %></td>
+			<td><%= link_to 'Requests for next month', report_index_path(report: "next_month"), remote: true %></td>
 		</tr>
 	</tbody>
 </table>
+
+<div id="report_view"></div>
