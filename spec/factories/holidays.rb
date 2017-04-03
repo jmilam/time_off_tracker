@@ -1,5 +1,7 @@
 FactoryGirl.define do
-  factory :holiday do
+  factory :thanksgiving, class: Holiday do
+  	name			"Thanksgiving"
+  	date			Date.new 2017,11,23
     
   end
 end

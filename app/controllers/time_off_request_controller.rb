@@ -44,6 +44,11 @@ class TimeOffRequestController < ApplicationController
 			if @request.save
 				@end_status = @request.status
 				@request.status_changes.create(start_change: "#{@start_status}", end_change: "#{@end_status}", date: Date.today)
+				if @request.time_off_type.downcase == "vacation"
+					@request.deduct_time_from_totals @request.date_start, @request.date_end, current_user
+				else
+					@request.deduct_time_from_hours @request.hours, current_user
+				end
 				response = Api.new.user_update(@request)
 				@exchange_server.add_to_calendar(@request.approved_by, @request.time_off_type, @request.date_start,@request.date_end, @request.hours) if @request.approved == true
 				flash[:notice] = "Notification has been sent to #{@request.user.first_name} #{@request.user.last_name} about your decision."
@@ -66,12 +71,14 @@ class TimeOffRequestController < ApplicationController
 			@start_status = @request.status
 			if @request.update(cancelled: true)
 				@end_status = @request.status
+				@request.add_time_from_cancel @request.date_start, @request.date_end, current_user
 				@request.status_changes.create(start_change: "#{@start_status}", end_change: "#{@end_status}", date: Date.today)
 				flash[:notice] = "Time Off Request has been canceled."
 			else
 				flash[:error] = "There was an error when canceling Time Off Request."
 			end
 		rescue => error
+			p error
 			flash[:error] = "There was an error when canceling Time Off Request."
 		end
 		redirect_to :root

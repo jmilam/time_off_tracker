@@ -40,6 +40,52 @@ class TimeOffRequest < ApplicationRecord
 		self.cancelled
 	end
 
+	def deduct_time_from_totals(start_date, end_date, user)
+		time_off_total = calculate_days_to_deduct(start_date, end_date)
+		
+		deduct_from_totals(user, time_off_total)
+	end
+
+	def calculate_days_to_deduct(start_date, end_date)
+		holidays = Holiday.all
+		date_count = end_date.to_date.mjd - start_date.to_date.mjd
+		time_off_total = 0
+		0.upto(date_count) do |num|
+			if num == 0
+				time_off_total += 1 unless weekend?(start_date) || holiday?(start_date, holidays)
+			else
+				time_off_total += 1 unless weekend?(start_date + num.day) || holiday?(start_date + num.day, holidays)
+			end
+		end
+		time_off_total
+	end
+
+	def deduct_time_from_hours(hours, user)
+		user.update(personal_total: user.personal_total - hours)
+	end
+
+	def weekend?(date)
+		date.on_weekend?
+	end
+
+	def holiday?(date, holidays)
+		holidays.find_by_date(date.to_date) != nil
+	end
+
+	def deduct_from_totals(user, time_off_total)
+		user.update(vacation_total: user.vacation_total - (time_off_total * 8))
+	end
+
+	def add_to_totals(user, time_off_total)
+		user.update(vacation_total: user.vacation_total + (time_off_total * 8))
+	end
+
+	def add_time_from_cancel(start_date, end_date, user)
+		time_off_total = calculate_days_to_deduct(start_date, end_date)
+		
+		add_to_totals(user, time_off_total)
+	end
+
 	def self.to_csv(data)
 		csv_data = CSV.generate do |csv|
 			csv << ["Employee", "Type", "Start Date", "End Date", "Approved By", "Hours"]
