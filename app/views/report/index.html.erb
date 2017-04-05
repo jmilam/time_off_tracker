@@ -1,3 +1,4 @@
+
 <table class="table table-striped">
 	<thead>
 		<tr>
@@ -6,15 +7,42 @@
 	</thead>
 	<tbody>
 		<tr>
-			<td><%= link_to 'Requests for upcoming week', report_index_path(report: "next_week"), remote: true %></td>
+			<td><%= link_to 'Time Off Report', "#", class: 'report_modal', data: {toggle: 'modal', target: '#reportRangeModal', info: 'time_off_request_report'} %></td>
 		</tr>
 		<tr>
-			<td><%= link_to 'Requests for current month', report_index_path(report: "current_month"), remote: true %></td>
-		</tr>
-		<tr>
-			<td><%= link_to 'Requests for next month', report_index_path(report: "next_month"), remote: true %></td>
+			<td><%= link_to 'Transaction Report', "#", class: 'report_modal', data: {toggle: 'modal', target: '#reportRangeModal', info: 'transaction_report'} %></td>
 		</tr>
 	</tbody>
 </table>
 
 <div id="report_view"></div>
+
+<div class="modal fade" id="reportRangeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="exampleModalLabel">Report Range</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="recipient-name" class="control-label">Start Date:</label>
+            <input type="text" class="form-control" id="start_date">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="control-label">End Date:</label>
+            <input type="text" class="form-control" id="end_date">
+          </div>
+          <div class="form-group">
+            <input type="hidden" class="form-control" id="report_type">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="transaction_report">Run Report</button>
+      </div>
+    </div>
+  </div>
+</div>

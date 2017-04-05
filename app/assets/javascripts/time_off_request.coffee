@@ -1,7 +1,7 @@
 $(document).on "turbolinks:load", ->
 	months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 	$('#start_date').datepicker
-    dateFormat: 'yy-mm-dd'
+        dateFormat: 'yy-mm-dd'
   
   $('#end_date').datepicker
     dateFormat: 'yy-mm-dd'

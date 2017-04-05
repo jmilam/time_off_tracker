@@ -91,6 +91,9 @@ class TimeOffRequest < ApplicationRecord
 			csv << ["Employee", "Type", "Start Date", "End Date", "Approved By", "Hours"]
 		  data.each do |request|
 		    csv << ["#{request.user.first_name} #{request.user.last_name}", request.time_off_type, request.date_start.strftime("%m/%d/%Y"), request.date_end.strftime("%m/%d/%Y"), request.approved_by, request.hours.nil? ? 0 : request.hours]
+		    request.status_changes.each do |status|
+		    	csv << ["#{status.start_change}", "#{status.end_change}", "#{status.date.to_date.strftime('%m/%d/%Y')}"]
+		    end
 		  end
 		end
 	end

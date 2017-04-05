@@ -1,19 +1,23 @@
 class ReportController < ApplicationController
 	def index
+		report_func = 0
+		@start_date = params[:start_date]
+		@end_date = params[:end_date]
 		case params[:report]
-		when "next_week"
-			date_start = Date.today.next_week
-			date_end = Date.today.next_week.end_of_week
-		when "current_month"
-			date_start = Date.today.beginning_of_month
-			date_end = Date.today.next_week.end_of_month
-		when "next_month"
-			date_start = Date.today.end_of_month + 1.day
-			date_end = (Date.today.end_of_month + 1.day).end_of_month
+		when "time_off_request_report"
+
+		when "transaction_report"
+			report_func = 1
 		end
 
-		@requests = TimeOffRequest.approved_report(date_start, date_end).includes(:user, :manager).order('time_off_type ASC')
+		if report_func == 0
+			@requests = TimeOffRequest.approved_report(@start_date,@end_date).includes(:user, :manager, :status_changes).order('date_start ASC')
+		else
+			@requests = TimeOffRequest.where('date_start >= ? AND date_end <= ?', @start_date, @end_date).includes(:status_changes).order('date_start ASC')
+		end
+		
 		@report_type = params[:report]
+		
 		respond_to do |format|
 			format.html
 			format.js
@@ -21,25 +25,21 @@ class ReportController < ApplicationController
 	end
 
 	def create
-		case params[:report]
-		when "next_week"
-			date_start = Date.today.next_week
-			date_end = Date.today.next_week.end_of_week
-		when "current_month"
-			date_start = Date.today.beginning_of_month
-			date_end = Date.today.next_week.end_of_month
-		when "next_month"
-			date_start = Date.today.end_of_month + 1.day
-			date_end = (Date.today.end_of_month + 1.day).end_of_month
-		end
+		begin
+			start_date = params[:start_date]
+			end_date = params[:end_date]
+			case params[:report]
+			when "time_off_request_report"
+				@requests = TimeOffRequest.approved_report(start_date, end_date).includes(:user).order('time_off_type ASC')
+			when "transaction_report"
+				@requests = TimeOffRequest.where('date_start >= ? AND date_end <= ?', start_date, end_date).includes(:status_changes).order('date_start ASC')
+			end
+			@requests = TimeOffRequest.to_csv(@requests)
+			send_data @requests, filename: "#{params[:report]} Requests.csv"
 
-		@requests = TimeOffRequest.approved_report(date_start, date_end).includes(:user).order('time_off_type ASC')
-		@requests = TimeOffRequest.to_csv(@requests)
-
-		send_data @requests, filename: "#{params[:report]} Requests.csv"
-
-		respond_to do |format|
-			format.html
+		rescue => error
+			flash[:error] = error
+			redirect_to report_index_path
 		end
 
 	end
