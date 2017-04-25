@@ -19,6 +19,11 @@
     <%= f.select :department_id, @departments.map {|dept| [dept.name, dept.id]}, {prompt: '- Please Select -'}, {class: 'form-control'} %>
   </div>
 
+  <div class="field">
+    <%= f.label :location %><br />
+    <%= f.text_field :locations, class: "form-control" %>
+  </div>
+
   <div class="row">
 	  <div class="col-sm-12 col-md-6">
 		  <div class="field">

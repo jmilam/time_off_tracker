@@ -1,6 +1,6 @@
 class UserPortalController < ApplicationController
   def index
-  	p @user = current_user
+  	@user = current_user
 
   	@time_requests = @user.time_off_requests.order 'date_start DESC'
     
@@ -18,6 +18,9 @@ class UserPortalController < ApplicationController
   		@manager = Manager.find_by_name("#{@user.first_name} #{@user.last_name}")
 	  	@manager_approvals = @manager.nil? ? Array.new : @manager.time_off_requests.pending
 	  	@employees = @user.department.users.includes(:time_off_requests)
+    elsif @user.payroll
+      @manager_approvals = TimeOffRequest.pending
+      @employees = User.all.includes(:time_off_requests)
 	  end
   	@pending_requests = @user.time_off_requests
   end
