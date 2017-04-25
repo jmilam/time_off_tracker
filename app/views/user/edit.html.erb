@@ -21,7 +21,7 @@
 
   <div class="field">
     <%= f.label :location %><br />
-    <%= f.text_field :locations, class: "form-control" %>
+    <%= f.select :locations, ["NC", "OR", "TN", "TX"].map {|loc| [loc, loc]}, {}, {class: 'form-control'} %>
   </div>
 
   <div class="row">

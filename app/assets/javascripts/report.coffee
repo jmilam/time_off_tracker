@@ -10,11 +10,6 @@ $(document).on "turbolinks:load", ->
 		ajaxReportRequest '/report', start_date, end_date, report
 		
 
-	$('#start_date').datepicker
-    dateFormat: 'yy-mm-dd'
-  
-  $('#end_date').datepicker
-    dateFormat: 'yy-mm-dd'
 
   ajaxReportRequest = (url, start_date, end_date, report_type) ->
   	$.ajax
