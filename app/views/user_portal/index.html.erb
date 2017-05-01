@@ -46,6 +46,50 @@
       </div>
     </div>
   </div> 
+<% elsif @user.payroll %>
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+      <div class="panel panel-danger" >
+        <div class="panel-heading" style="background-color:#D63E4B;color:white;">
+          <div class="panel-title" >
+            Employee Vacation Request's Waiting for your Approval
+          </div>
+        </div>
+        <div class="panel-body" %>
+          <% if @manager_approvals.count == 0 %>
+            <div class="jumbotron">
+              <p class="text-center">You have no Time Off Requests Pending.</p>
+            </div>
+          <% else %>
+            <table class="table table-striped" >
+              <thead>
+                <tr>
+                  <th>Name </th>
+                  <th>Request Type</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
+                  <th>Hours</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @manager_approvals.each do |request| %>
+                  <tr>
+                    <td><%= request.user.first_name %> <%= request.user.last_name %></td>
+                    <td><%= request.time_off_type %></td>
+                    <td><%= request.date_start.strftime('%m-%d-%Y') %></td>
+                    <td><%= request.date_end.strftime('%m-%d-%Y') %></td>
+                    <td><%= request.hours.nil? ? request.days_to_hours : request.hours %></td>
+                    <td><%= link_to "Approve", time_off_request_path(id: request.id, status: "approved"), method: :put, class: 'btn btn-success' %> <%= link_to "Deny", time_off_request_path(id: request.id, status: "denied"), method: :put, class: 'btn btn-danger' %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div> 
 <% end %>
   <div class="row">
     <div class="col-sm-12 col-md-12">
