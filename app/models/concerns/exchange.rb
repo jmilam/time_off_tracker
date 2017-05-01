@@ -5,6 +5,9 @@ class Exchange
 	def initialize(server, user, pass)
 		@client = Viewpoint::EWSClient.new(server, user, pass)
 		@calendar = @client.get_folder(:calendar)
+		@it_fin_share = @client.get_folder_by_name 'Calendars', parent: :publicfoldersroot
+		@it_fin_share = @it_fin_share.ews_item[:folder_id][:attribs][:id]
+		@it_fin_share = @client.get_folder_by_name 'Finance/IT Out of Office', parent: @it_fin_share
 	end
 
 	def add_to_calendar(user, type, start_date, end_date, duration)
@@ -25,5 +28,7 @@ class Exchange
 		end
 
 		@calendar.create_item(subject: "#{user.capitalize} out. - #{type} Day", start: start_date, end: end_date, is_all_day_event: all_day)
+		@it_fin_share.create_item(subject: "#{user.capitalize} out. - #{type} Day", start: start_date, end: end_date, is_all_day_event: all_day)
+		
 	end
 end

@@ -23,7 +23,7 @@ class Users::SessionsController < Devise::SessionsController
         flash[:error] = "Username or Password is incorrect."
         redirect_to new_user_session_path
       else
-        flash[:notice] = "LDAP authenticate"
+        flash[:notice] = "Welcome #{params[:user][:email]}!"
         sign_in(:user, @user)
         redirect_to user_portal_index_path
       end
