@@ -87,9 +87,8 @@
 		
 				<div class="tab-content">
 					<% @requests.each do |key, request| %>
-						<% if @counter == 0 %>
+						<% if key == "Personal" %>
 							<div role="tabpanel" class="tab-pane active" id="<%= key.downcase %>">
-							<% @counter += 1 %>
 						<% else %>
 							<div role="tabpanel" class="tab-pane" id="<%= key.downcase %>">
 						<% end %>
