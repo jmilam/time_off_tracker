@@ -16,13 +16,13 @@ class UserController < ApplicationController
 
 	def show
 		@counter = 0
-		@user = User.find(params[:id])
+		p @user = User.find(params[:id])
 		@managers = Manager.all
 		@request_types = ["Personal", "Vacation"]
 		@hours = @user.site == "Endura Products" ? ["4", "8"] : ["1","2","3","4","5","6","7","8"]
 		p @requests = @user.time_off_requests.order("date_start ASC").group_by(&:time_off_type)
-		@personal_count = @requests.empty? ? 0 : @requests["Personal"].count
-		@vacation_count = @requests.empty? ? 0 : @requests["Vacation"].count
+		p @personal_count = @requests.empty? ? 0 : @requests["Personal"].count
+		p @vacation_count = @requests.empty? ? 0 : @requests["Vacation"].count
 	end
 
 	def create
