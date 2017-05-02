@@ -55,16 +55,17 @@
                 <% Department.all.each do |department| %>
                   <table class="table">
                     <thead>
-                      <tr><th><%= department.name %></th></tr> 
+                      <tr><th colspan=3><%= department.name %></th></tr> 
                     </thead>
                     <tbody>
                       <% department.managers.each do |manager| %>
                         <% manager.time_off_requests.includes(:user).order('date_start ASC').each do |request| %>
                           <% if Date.today.strftime("%Y") == request.date_start.strftime("%Y") && request.approved && request.cancelled == false %>
-                            <thead style="border-bottom: 3px solid <%= background_color(request.date_start.strftime("%m")) %>;color:#444444;"><tr><th class="text-center" colspan=2><%= request.date_start.strftime("%B - %d") %></th></tr></thead>
+                            <thead style="border-bottom: 3px solid <%= background_color(request.date_start.strftime("%m")) %>;color:#444444;"><tr><th class="text-center" colspan=3><%= request.date_start.strftime("%B - %d") %></th></tr></thead>
                             <tr>
                               <td><%= request.user.first_name %> <%= request.user.last_name %></td>
                               <td><%= request.time_off_type %></td>
+                              <td><% if request.date_end - request.date_start == 0.0 %><%= request.hours %> Hours <% else %><%= ((request.date_end - request.date_start) / 86400).to_i + 1%> Day <% end %></td>
                             </tr>
                           <% end %>
                         <% end %>
@@ -87,6 +88,7 @@
                           <tbody>
                             <tr>
                               <td><%= request.time_off_type %></td>
+                              <td><% if request.date_end - request.date_start == 0.0 %><%= request.hours %> Hours <% else %><%= ((request.date_end - request.date_start) / 86400).to_i + 1%> Day <% end %></td>
                             </tr>   
                           </tbody>
                       <% end %>      
