@@ -31,6 +31,7 @@
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Functions<span class="caret"></span></a>
 
                       <ul class="dropdown-menu">
+                        <li><%= link_to 'Home', user_portal_index_path %></li>
                         <li><%= link_to 'Users', user_index_path if current_user.account_manager %></li>
                         <li><%= link_to 'Managers', manager_index_path if current_user.account_manager %></li>
                         <li><%= link_to 'Departments',  department_index_path if current_user.account_manager %></li>
@@ -50,18 +51,51 @@
         <div class="col-sm-3 col-md-2 sidebar hidden-xs" style="padding-left: 0px;padding-right: 0px;">
         	<div class="nav nav-sidebar">
           <table class="table">
-            <% current_user.time_off_requests.includes(:user).order('date_start ASC').each do |request| %>
-              <% if Date.today.strftime("%Y") == request.date_start.strftime("%Y") && request.approved && request.cancelled == false %>
-                  <thead style="border-bottom: 3px solid <%= background_color(request.date_start.strftime("%m")) %>;color:#444444;"><tr><th class="text-center" colspan=2><%= request.date_start.strftime("%B - %d") %></th></tr></thead>
+            <% if current_user.payroll %>
+                <% Department.all.each do |department| %>
+                  <table class="table">
+                    <thead>
+                      <tr><th><%= department.name %></th></tr> 
+                    </thead>
+                    <tbody>
+                      <% department.managers.each do |manager| %>
+                        <% manager.time_off_requests.includes(:user).order('date_start ASC').each do |request| %>
+                          <% if Date.today.strftime("%Y") == request.date_start.strftime("%Y") && request.approved && request.cancelled == false %>
+                            <thead style="border-bottom: 3px solid <%= background_color(request.date_start.strftime("%m")) %>;color:#444444;"><tr><th class="text-center" colspan=2><%= request.date_start.strftime("%B - %d") %></th></tr></thead>
+                            <tr>
+                              <td><%= request.user.first_name %> <%= request.user.last_name %></td>
+                              <td><%= request.time_off_type %></td>
+                            </tr>
+                          <% end %>
+                        <% end %>
+                      <% end %>
+                    </tbody>
+                  </table>
+                <% end %>
+              <thead>
+              </thead>
+            <% else %>
+              <% current_user.department.users.each do |user| %>
+                <table class="table">
+                  <thead>
+                    <tr><th><%= user.first_name %> <%= user.last_name %></th></tr>
+                  </thead>
                   <tbody>
-                    <tr>
-                      <td><%= request.user.first_name %> <%= request.user.last_name %></td>
-                      <td><%= request.time_off_type %></td>
-                    </tr>   
+                    <% user.time_off_requests.includes(:user).order('date_start ASC').each do |request| %>
+                      <% if Date.today.strftime("%Y") == request.date_start.strftime("%Y") && request.approved && request.cancelled == false %>
+                          <thead style="border-bottom: 3px solid <%= background_color(request.date_start.strftime("%m")) %>;color:#444444;"><tr><th class="text-center" colspan=2><%= request.date_start.strftime("%B - %d") %></th></tr></thead>
+                          <tbody>
+                            <tr>
+                              <td><%= request.time_off_type %></td>
+                            </tr>   
+                          </tbody>
+                      <% end %>      
+                    <% end %>
                   </tbody>
-              <% end %>      
+                </table>
+              <% end %>
             <% end %>
-            </table>
+          </table>
         	</div> 
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">

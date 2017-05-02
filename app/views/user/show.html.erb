@@ -1,11 +1,10 @@
-
 <div class="container">
 	<div class="row">
 		<div class="col-sm-12 col-md-6 col-md-offset-2">
 			<%= link_to '<< Back', user_portal_index_path %>
 		</div>
 	</div>
-	<div class="row">
+  <div class="row">
 		<div class="col-sm-12 col-md-6 col-md-offset-2">
 		  <div class="panel panel-default">
 		    <div class="panel-heading" style="background-color:#92B3B0">
@@ -77,5 +76,50 @@
 	  		</div>
 	  	</div>
 	  <% end %>
+	</div>
+
+	<div class="row" style="margin-top:30px;">
+		<ul class="nav nav-pills nav-justified" role="tablist">
+			<li role="presentation" class="active"><a href="#personal" aria-controls="personal" role="tab" data-toggle="tab">Personal <span class="badge"><%= @personal_count %></span></a></li>
+			<li role="presentation"><a href="#vacation" aria-controls="vacation" role="tab" data-toggle="tab">Vacation <span class="badge" style=""><%= @vacation_count %></span></a></li>
+		</ul>
+
+		
+				<div class="tab-content">
+					<% @requests.each do |key, request| %>
+						<% if @counter == 0 %>
+							<div role="tabpanel" class="tab-pane active" id="<%= key.downcase %>">
+							<% @counter += 1 %>
+						<% else %>
+							<div role="tabpanel" class="tab-pane" id="<%= key.downcase %>">
+						<% end %>
+							<table class= "table table-striped">
+								<thead>
+									<tr>
+										<th>Request Type</th>
+										<th>Manager</th>
+										<th>Start Date</th>
+										<th>End Date</th>
+										<th>Hours</th>
+									</tr>
+								</thead>
+								<tbody>
+									<% request.each do |request| %>
+										<tr>
+											<td><%= request.time_off_type %></td>
+											<td><%= request.manager.name %></td>
+											<td><%= request.date_start.strftime("%m/%d/%Y") %></td>
+											<td><%= request.date_end.strftime("%m/%d/%Y") %></td>
+											<td><%= request.hours %></td>
+											<td><%= link_to 'Cancel', time_off_request_cancel_path(id: request.id), method: :put, data: {confirm: "Are you sure you want to cancel this request. You will not be able to restore this request. You will have to make the request again."} unless request.cancelled || request.approved == false %></td>
+										</tr>
+									<% end %>
+								</tbody>
+							</table>
+						</div>
+					<% end %>
+				</div>
+			</tbody>
+		</table>
 	</div>
 </div>

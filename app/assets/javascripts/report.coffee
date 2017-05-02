@@ -11,11 +11,11 @@ $(document).on "turbolinks:load", ->
 		
 
 
-  ajaxReportRequest = (url, start_date, end_date, report_type) ->
-  	$.ajax
-      url: url
-      type: 'GET'
-      dataType: 'script'
-      data: start_date: start_date, end_date: end_date, report: report_type
-      success: (response) ->
-        return
+	ajaxReportRequest = (url, start_date, end_date, report_type) ->
+		$.ajax
+	  		url: url
+	  		type: 'GET'
+	  		dataType: 'script'
+	  		data: start_date: start_date, end_date: end_date, report: report_type
+	  		success: (response) ->
+	    		return

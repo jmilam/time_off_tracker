@@ -94,6 +94,6 @@ class TimeOffRequestController < ApplicationController
 	private
 
 	def time_off_params
-		params.require(:request).permit(:manager_id, :time_off_type, :date_start, :date_end, :hours, :cancelled, :approved, :approved_by)
+		params.require(:request).permit(:manager_id, :time_off_type, :date_start, :date_end, :hours, :cancelled, :approved, :approved_by, :note)
 	end
 end
