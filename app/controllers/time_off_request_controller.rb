@@ -18,7 +18,10 @@ class TimeOffRequestController < ApplicationController
 	def create
 		begin
 			@request = current_user.time_off_requests.new(time_off_params)
-			
+			manager = Manager.find_by_id(params[:request][:manager_id])
+			user = manager.nil? ? nil : User.find_by_email(manager)
+			params[:request][:manager_id] = user.nil? ? params[:request][:manager_id] : user.id
+
 			if @request.save
 				@request.status_changes.create(start_change: "New request", end_change: "Pending", date: Date.today)
 				response = Api.new.manager_update(params[:request], current_user)
