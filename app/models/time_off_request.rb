@@ -29,7 +29,17 @@ class TimeOffRequest < ApplicationRecord
 			0
 		else
 			if hours.nil?
-				((((self.date_end.end_of_day.to_time - self.date_start.to_time) /3600) / 24) * 8).round
+				holidays = Holiday.all
+				date_count = (((((self.date_end - self.date_start))/3600)/24)*8).round
+				 time_off_total = 0
+				 0.upto(date_count/8) do |num|
+				 	if num == 0
+				 		time_off_total += 1 unless weekend?(self.date_start) || holiday?(self.date_start, holidays)
+				 	else
+				 		time_off_total += 1 unless weekend?(self.date_start + num.day) || holiday?(self.date_start + num.day, holidays)
+				 	end
+				 end
+				time_off_total * 8
 			else
 				self.hours
 			end
