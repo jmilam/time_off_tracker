@@ -38,7 +38,7 @@ class TimeOffRequestController < ApplicationController
 	end
 
 	def update
-		#begin
+		begin
 			@request = TimeOffRequest.find(params[:id])
 			@start_status = @request.status
 			@request.approved = params[:status] == "approved" ? true : false
@@ -48,9 +48,9 @@ class TimeOffRequestController < ApplicationController
 				@end_status = @request.status
 				@request.status_changes.create(start_change: "#{@start_status}", end_change: "#{@end_status}", date: Date.today)
 				if @request.time_off_type.downcase == "vacation"
-					@request.deduct_time_from_totals @request.date_start, @request.date_end, current_user
+					#@request.deduct_time_from_totals @request.date_start, @request.date_end, current_user
 				else
-					@request.deduct_time_from_hours @request.hours, current_user
+					#@request.deduct_time_from_hours @request.hours, current_user
 				end
 				response = Api.new.user_update(@request)
 				@exchange_server.add_to_calendar(@request) if @request.approved == true
@@ -58,9 +58,9 @@ class TimeOffRequestController < ApplicationController
 			else
 				flash[:error] = @request.errors
 			end
-		#rescue => error
-		#	flash[:error] = error
-		#end
+		rescue => error
+			flash[:error] = error
+		end
 
 		redirect_to :root
 	end
