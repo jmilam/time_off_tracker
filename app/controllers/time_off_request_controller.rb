@@ -38,7 +38,7 @@ class TimeOffRequestController < ApplicationController
 	end
 
 	def update
-		begin
+		#begin
 			@request = TimeOffRequest.find(params[:id])
 			@start_status = @request.status
 			@request.approved = params[:status] == "approved" ? true : false
@@ -53,14 +53,14 @@ class TimeOffRequestController < ApplicationController
 					@request.deduct_time_from_hours @request.hours, current_user
 				end
 				response = Api.new.user_update(@request)
-				@exchange_server.add_to_calendar(@request.approved_by, @request.time_off_type, @request.date_start,@request.date_end, @request.hours) if @request.approved == true
+				@exchange_server.add_to_calendar(@request) if @request.approved == true
 				flash[:notice] = "Notification has been sent to #{@request.user.first_name} #{@request.user.last_name} about your decision."
 			else
 				flash[:error] = @request.errors
 			end
-		rescue => error
-			flash[:error] = error
-		end
+		#rescue => error
+		#	flash[:error] = error
+		#end
 
 		redirect_to :root
 	end

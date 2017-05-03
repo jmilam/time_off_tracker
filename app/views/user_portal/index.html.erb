@@ -37,7 +37,7 @@
                     <td><%= request.date_start.strftime('%m-%d-%Y') %></td>
                     <td><%= request.date_end.strftime('%m-%d-%Y') %></td>
                     <td><%= request.hours.nil? ? request.days_to_hours : request.hours %></td>
-                    <td><% if request.note %><span class="glyphicon glyphicon-info-sign" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="<%= request.note %>"></span> <% end %></td>
+                    <td><% unless request.note.nil? || request.note.empty? %><span class="glyphicon glyphicon-info-sign" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="<%= request.note %>"></span> <% end %></td>
                     <td><%= link_to "Approve", time_off_request_path(id: request.id, status: "approved"), method: :put, class: 'btn btn-success' %> <%= link_to "Deny", time_off_request_path(id: request.id, status: "denied"), method: :put, class: 'btn btn-danger' %></td>
                   </tr>
                 <% end %>
@@ -60,7 +60,7 @@
         <div class="panel-body">
           <ul class="list-inline text-center">
             <li class="col-sm-12 col-md-6">
-              <b>Vaction Time (Hours)</b>
+              <b>Vacation Time (Hours)</b>
               <ul class="list-inline">
                 <li class="col-xs-6 col-sm-3 col-md-3"><div class="row">Allocated</div><div class="row"><%= @user.vacation_total %></div></li>            
                 <li class="col-xs-6 col-sm-3 col-md-3"><div class="row">Used</div><div class="row"><%= @used_vac %></div></li>
@@ -122,7 +122,7 @@
   									<td class="text-center"><%= request.date_end.strftime('%m-%d-%Y') %></td>
   									<td class="text-center"><%= request.status %></td>
                     <td class="text-center"><%= request.hours.nil? ? request.days_to_hours : request.hours %></td>
-                    <td class="text-center"><% if request.note %><span class="glyphicon glyphicon-info-sign" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="<%= request.note %>"></span> <% end %></td>
+                    <td class="text-center"><% unless request.note.nil? || request.note.empty? %><span class="glyphicon glyphicon-info-sign" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="<%= request.note %>"></span> <% end %></td>
   									<td><%= link_to 'Cancel', time_off_request_cancel_path(id: request.id), method: :put, data: {confirm: "Are you sure you want to cancel this request. You will not be able to restore this request. You will have to make the request again."} unless request.cancelled || request.approved == false %></td>
   								</tr>
                   <% end %>
@@ -135,7 +135,7 @@
     </div>
 	</div>
 
-  <% if @user.admin? || @user.payroll %>
+  <% if @user.admin? || @user.payroll %> 
     <div class="row">
       <div class="col-sm-12 col-md-12">
         <div class="panel panel-default" >
@@ -173,7 +173,7 @@
                   <% @employees.each do |emp| %>
                     <tr>
                       <td>
-                        <% if @user.payroll %>
+                        <% if @user.payroll || @user.admin %>
                           <%= link_to "#{emp.first_name} #{emp.last_name}", user_path(emp.id) %>
                         <% else %>
                           <%= emp.first_name %> <%= emp.last_name %></td>
