@@ -6,7 +6,7 @@ class TimeOffRequest < ApplicationRecord
 	has_many :status_changes
 
 	scope :not_approved, -> {where(approved: false)}
-	scope :pending, -> {where(approved: nil)}
+	scope :pending, -> {where(approved: nil, cancelled: false)}
 	scope :approved, -> {where(approved: true)}
 	scope :vacation, -> {where(time_off_type: "Vacation", cancelled: false)}
 	scope :personal, -> {where(time_off_type: "Personal", cancelled: false)}
