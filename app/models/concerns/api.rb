@@ -15,9 +15,9 @@ class Api
 		Net::HTTP.post_form url, to_email: request.user.email, approved: request.approved, approved_by: request.approved_by, request_type: request.time_off_type, start_date: request.date_start, end_date: request.date_end
 	end
 
-	def upcoming_week_off(requests, managers, users)
+	def upcoming_week_off(requests, managers, users, payroll_users)
 		url = URI @web_api + 'email/reminder/upcoming_week_off'
-		Net::HTTP.post_form url, requests: requests, managers: managers, users: users
+		Net::HTTP.post_form url, requests: requests, managers: managers, users: users, payroll_users: payroll_users
 	end
 
 	def users_over_112_remaining(totals)

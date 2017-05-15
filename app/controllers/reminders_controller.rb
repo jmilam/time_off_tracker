@@ -4,13 +4,18 @@ class RemindersController < ApplicationController
 		case params[:type].downcase
 
 		when "upcoming_week"
-			managers, users = Array.new, Array.new
+			managers, users, payroll = Array.new, Array.new, Array.new
 			requests = TimeOffRequest.upcoming_week.includes(:manager, :user)
 			requests.each do |r| 
 				managers << r.manager
 				users << r.user
 			end 
-			Api.new.upcoming_week_off requests.to_json, managers.to_json, users.to_json
+
+			User.where(payroll: true).each do |user|
+				payroll << user
+			end
+
+			Api.new.upcoming_week_off requests.to_json, managers.to_json, users.to_json, payroll.to_json
 		when "outstanding_time_off"
 			totals= Hash.new
 
