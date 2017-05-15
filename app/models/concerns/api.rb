@@ -1,8 +1,11 @@
 class Api
 	require 'net/http'
-	def initialize
-		@web_api = "http://webapi.enduraproducts.com/api/endura/"
-		#@web_api = "http://localhost:3000/api/endura/"
+	def initialize(rails_env)
+		if rails_env = "development" || "test"
+			@web_api = "http://webapidev.enduraproducts.com/api/endura/"
+		else
+			@web_api = "http://webapi.enduraproducts.com/api/endura/"
+		end
 	end
 
 	def manager_update(params, current_user)

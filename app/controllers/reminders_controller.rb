@@ -15,7 +15,7 @@ class RemindersController < ApplicationController
 				payroll << user
 			end
 
-			Api.new.upcoming_week_off requests.to_json, managers.to_json, users.to_json, payroll.to_json
+			Api.new(Rails.env).upcoming_week_off requests.to_json, managers.to_json, users.to_json, payroll.to_json
 		when "outstanding_time_off"
 			totals= Hash.new
 
@@ -30,7 +30,7 @@ class RemindersController < ApplicationController
 					end
 				end
 			end
-			Api.new.users_over_112_remaining totals
+			Api.new(Rails.env).users_over_112_remaining totals
 		else
 		end
 	end

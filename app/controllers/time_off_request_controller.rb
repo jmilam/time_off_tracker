@@ -24,7 +24,7 @@ class TimeOffRequestController < ApplicationController
 
 			if @request.save
 				@request.status_changes.create(start_change: "New request", end_change: "Pending", date: Date.today)
-				response = Api.new.manager_update(params[:request], current_user)
+				response = Api.new(Rails.env).manager_update(params[:request], current_user)
 				flash[:notice] = "Vacation has been submitted to #{Manager.find(@request.manager_id).name}"
 				redirect_to :root
 			else
@@ -52,7 +52,7 @@ class TimeOffRequestController < ApplicationController
 				else
 					#@request.deduct_time_from_hours @request.hours, current_user
 				end
-				response = Api.new.user_update(@request)
+				response = Api.new(Rails.env).user_update(@request)
 				@exchange_server.add_to_calendar(@request) if @request.approved == true
 				flash[:notice] = "Notification has been sent to #{@request.user.first_name} #{@request.user.last_name} about your decision."
 			else
