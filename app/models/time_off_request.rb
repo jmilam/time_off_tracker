@@ -87,7 +87,7 @@ class TimeOffRequest < ApplicationRecord
 	end
 
 	def add_to_totals(user, time_off_total)
-		user.update(vacation_total: user.vacation_total + (time_off_total * 8))
+		#user.update(vacation_total: user.vacation_total + (time_off_total * 8))
 	end
 
 	def add_time_from_cancel(start_date, end_date, user)

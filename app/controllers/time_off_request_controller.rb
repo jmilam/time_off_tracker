@@ -73,6 +73,7 @@ class TimeOffRequestController < ApplicationController
 			@request = TimeOffRequest.find(params[:id])
 			@start_status = @request.status
 			if @request.update(cancelled: true)
+				p "Cancel"
 				@end_status = @request.status
 				@request.add_time_from_cancel @request.date_start, @request.date_end, current_user
 				@request.status_changes.create(start_change: "#{@start_status}", end_change: "#{@end_status}", date: Date.today)
@@ -81,7 +82,7 @@ class TimeOffRequestController < ApplicationController
 				flash[:error] = "There was an error when canceling Time Off Request."
 			end
 		rescue => error
-			p error
+
 			flash[:error] = "There was an error when canceling Time Off Request."
 		end
 		redirect_to :root
