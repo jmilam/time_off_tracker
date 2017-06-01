@@ -17,11 +17,12 @@ class TimeOffRequestController < ApplicationController
 
 	def create
 		begin
+
 			@request = current_user.time_off_requests.new(time_off_params)
+			@request.user_id = params[:request][:requesting_user_id]
 			manager = Manager.find_by_id(params[:request][:manager_id])
 			user = manager.nil? ? nil : User.find_by_email(manager)
 			params[:request][:manager_id] = user.nil? ? params[:request][:manager_id] : user.id
-
 			if @request.save
 				@request.status_changes.create(start_change: "New request", end_change: "Pending", date: Date.today)
 				response = Api.new(Rails.env).manager_update(params[:request], current_user)
@@ -73,7 +74,6 @@ class TimeOffRequestController < ApplicationController
 			@request = TimeOffRequest.find(params[:id])
 			@start_status = @request.status
 			if @request.update(cancelled: true)
-				p "Cancel"
 				@end_status = @request.status
 				@request.add_time_from_cancel @request.date_start, @request.date_end, current_user
 				@request.status_changes.create(start_change: "#{@start_status}", end_change: "#{@end_status}", date: Date.today)

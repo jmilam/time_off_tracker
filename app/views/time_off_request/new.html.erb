@@ -39,6 +39,9 @@
 	  <%= form_for :request, url: time_off_request_index_path, method: :post do |f| %>
 	  	<div class="form-group">
 	  		<div class="col-sm-12 col-md-6 col-md-offset-2">
+	  			<%= f.hidden_field :requesting_user_id, {value: @user.id} %>
+	  		</div>
+	  		<div class="col-sm-12 col-md-6 col-md-offset-2">
 		  		<%= f.label 'Manager Name' %>
 		  		<%= f.select :manager_id, @managers.map {|manager| [manager.name, manager.id]}, {prompt: '- Please Select -'}, {class: 'form-control'} %>
 		  	</div>
