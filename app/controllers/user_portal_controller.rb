@@ -17,10 +17,10 @@ class UserPortalController < ApplicationController
   	if @user.admin?
   		@manager = Manager.find_by_name("#{@user.first_name} #{@user.last_name}")
 	  	@manager_approvals = @manager.nil? ? Array.new : @manager.time_off_requests.pending
-	  	@employees = @user.department.users.includes(:time_off_requests)
+	  	@employees = @user.department.users.all_current_employees.includes(:time_off_requests)
     elsif @user.payroll
       @manager_approvals = TimeOffRequest.pending
-      @employees = User.all.includes(:time_off_requests)
+      @employees = User.all_current_employees.includes(:time_off_requests)
 	  end
   	@pending_requests = @user.time_off_requests
   end

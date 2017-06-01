@@ -17,15 +17,16 @@ class TimeOffRequestController < ApplicationController
 
 	def create
 		begin
-
+			requesting_user_id = params[:request][:requesting_user_id].to_i
 			@request = current_user.time_off_requests.new(time_off_params)
-			@request.user_id = params[:request][:requesting_user_id]
+			@request.user_id = requesting_user_id
 			manager = Manager.find_by_id(params[:request][:manager_id])
 			user = manager.nil? ? nil : User.find_by_email(manager)
 			params[:request][:manager_id] = user.nil? ? params[:request][:manager_id] : user.id
+
 			if @request.save
 				@request.status_changes.create(start_change: "New request", end_change: "Pending", date: Date.today)
-				response = Api.new(Rails.env).manager_update(params[:request], current_user)
+				response = Api.new(Rails.env).manager_update(params[:request], User.find(requesting_user_id))
 				flash[:notice] = "Vacation has been submitted to #{Manager.find(@request.manager_id).name}"
 				redirect_to :root
 			else
@@ -34,13 +35,13 @@ class TimeOffRequestController < ApplicationController
 			end
 		rescue => error
 			flash[:error] = error
-			redirect_to new_time_off_request_path
+			redirect_to user_path(params[:request][:requesting_user_id])
 		end
 	end
 
 	def update
 		begin
-			@request = TimeOffRequest.find(params[:id])
+			@request = TimeOffRequest.find(params[:request][:requesting_user_id])
 			@start_status = @request.status
 			@request.approved = params[:status] == "approved" ? true : false
 			@request.approved_by = "#{current_user.first_name} #{current_user.last_name}"

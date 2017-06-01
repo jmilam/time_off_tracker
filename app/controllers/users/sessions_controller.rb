@@ -22,6 +22,9 @@ class Users::SessionsController < Devise::SessionsController
       if @user.nil?
         flash[:error] = "Username or Password is incorrect."
         redirect_to new_user_session_path
+      elsif @user.terminated == true
+        flash[:error] = "This user has been terminated and cannot log into the system."
+        redirect_to new_user_session_path
       else
         flash[:notice] = "Welcome #{params[:user][:email]}!"
         sign_in(:user, @user)

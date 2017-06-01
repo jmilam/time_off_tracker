@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   get 'user_portal/index'
   put 'time_off_request/cancel'
   get 'time_off_request/tomorrow_requests'
+  put 'user/terminate'
   #devise_for :users
  	Rails.application.routes.draw do
     devise_for :users, controllers: {

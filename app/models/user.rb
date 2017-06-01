@@ -5,6 +5,7 @@ class User < ApplicationRecord
   has_many :time_off_requests
   has_many :managers, through: :department
   belongs_to :department
+  scope :all_current_employees, -> {where(terminated: false)}
 
   def user_totals
   	vacation = {available: self.vacation_total, used: 0, pending: 0}

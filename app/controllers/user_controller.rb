@@ -52,9 +52,26 @@ class UserController < ApplicationController
 		end
 	end
 
+	def terminate
+		begin
+			user = User.update(params[:id], terminated: params[:terminate])
+			status = params[:terminate] ? "terminated" : "re-instated"
+			
+			if user.valid?
+				flash[:notice] = "#{user.first_name} #{user.last_name} has been terminated."
+			else
+				flash[:error] = user.errors
+			end
+			redirect_to user_index_path
+		rescue Exception => e
+			flash[:error] = "#{e}"
+			redirect_to user_index_path
+		end
+	end
+
 	private
 
 	def user_params
-		params.require(:user).permit(:first_name, :last_name, :admin, :email, :password, :password_confirmation, :vacation_total, :personal_total, :department_id, :payroll, :account_manager)
+		params.require(:user).permit(:first_name, :last_name, :admin, :email, :password, :password_confirmation, :vacation_total, :personal_total, :department_id, :payroll, :account_manager, :terminated)
 	end
 end
