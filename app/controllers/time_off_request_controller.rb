@@ -41,7 +41,12 @@ class TimeOffRequestController < ApplicationController
 
 	def update
 		begin
-			@request = TimeOffRequest.find(params[:request][:requesting_user_id])
+			if params[:request].nil?
+				@request = TimeOffRequest.find(params[:id])
+			else
+				@request = TimeOffRequest.find(params[:request][:requesting_user_id])
+			end
+			
 			@start_status = @request.status
 			@request.approved = params[:status] == "approved" ? true : false
 			@request.approved_by = "#{current_user.first_name} #{current_user.last_name}"
